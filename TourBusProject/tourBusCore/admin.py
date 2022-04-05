@@ -4,7 +4,7 @@ from .models import SmsVerifyCode
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone')
+    list_display = ('id', 'name', 'phone', 'line_id')
 
 @admin.register(TourBus)
 class TourBusAdmin(admin.ModelAdmin):
