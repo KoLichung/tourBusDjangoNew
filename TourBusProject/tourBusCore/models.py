@@ -154,6 +154,6 @@ class County(models.Model):
     lng = models.DecimalField(max_digits=9, decimal_places=6)
 
 class SmsVerifyCode(models.Model):
-    phone = models.CharField(max_length=10, unique=True)
-    code = models.CharField(max_length=4, unique=True)
+    phone = models.CharField(max_length=10)
+    code = models.CharField(max_length=4)
     is_expired = models.BooleanField(default=False)

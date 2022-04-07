@@ -74,10 +74,10 @@ class SmsVerifyViewSet(APIView):
         if phone!= None and len(phone) == 10:
             if SmsVerifyCode.objects.filter(phone=phone, is_expired=False).count() ==0:
                 code = randSmsVerifyCode(phone)
-                return Response({'message': "送出驗證簡訊!", 'code': code})
+                return Response({'message': "ok", 'code': code})
             else:
-                return Response({'message': "此手機已有驗證碼，稍後再試！"})
+                return Response({'message': "this phone already got verify code, try later"})
         else:
-            return Response({'message': "錯誤的手機格式！"})
+            return Response({'message': "wrong phone number type"})
 
 
