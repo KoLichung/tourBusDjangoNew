@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
+from django.contrib.auth.password_validation import validate_password
+
 from user.serializers import UserSerializer, AuthTokenSerializer
 
 class CreateUserView(generics.CreateAPIView):
@@ -55,7 +57,8 @@ class UpdateUserPassword(APIView):
     def put(self, request, format=None):
         user = self.request.user
         old_password = self.request.data.get('old_password')
-        if old_password == user.password:
+
+        if user.check_password(old_password):
             new_password = self.request.data.get('new_password')
             user.set_password(new_password)
             user.save()
