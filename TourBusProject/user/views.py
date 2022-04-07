@@ -48,3 +48,17 @@ class UpdateUserLineIdView(APIView):
             return Response({'message': 'success update!'})
         except Exception as e:
             raise APIException("wrong token or null line_id")
+
+class UpdateUserPassword(APIView):
+    authentication_classes = (authentication.TokenAuthentication,)
+
+    def put(self, request, format=None):
+        user = self.request.user
+        old_password = self.request.data.get('old_password')
+        if old_password == user.password:
+            new_password = self.request.data.get('new_password')
+            user.set_password(new_password)
+            user.save()
+            return Response({'message': 'success update!'})
+        else:
+            raise APIException("wrong old password")
