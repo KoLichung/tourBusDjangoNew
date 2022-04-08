@@ -31,6 +31,11 @@ class UserSerializer(serializers.ModelSerializer):
 
         return user
 
+class UpdateUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = ('phone','name', 'isOwner', 'company', 'address', 'vehicalLicence', 'vehicalOwner', 'vehicalEngineNumber', 'vehicalBodyNumber', 'vehicalLicenceImage')
 
 class AuthTokenSerializer(serializers.Serializer):
     """Serializer for the user authentication object"""
