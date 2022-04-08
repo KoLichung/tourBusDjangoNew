@@ -41,8 +41,8 @@ def image_upload_handler(instance, filename):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model that suppors using email instead of username"""
-    phone = models.CharField(max_length=10, unique=True)
-    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=10, unique=True, blank = True, null=True)
+    name = models.CharField(max_length=255, blank = True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
