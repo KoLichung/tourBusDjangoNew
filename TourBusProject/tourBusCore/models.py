@@ -68,8 +68,8 @@ class TourBus(models.Model):
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255, default='', blank = True, null=True)
-    lat = models.DecimalField(max_digits=9, decimal_places=6)
-    lng = models.DecimalField(max_digits=9, decimal_places=6)
+    lat = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    lng = models.DecimalField(max_digits=9, decimal_places=6, null=True)
 
     city = models.CharField(max_length=100, default='', blank = True, null=True)
     county = models.CharField(max_length=100, default='', blank = True, null=True)
