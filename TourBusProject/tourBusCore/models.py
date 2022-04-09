@@ -74,7 +74,7 @@ class TourBus(models.Model):
     city = models.CharField(max_length=100, default='', blank = True, null=True)
     county = models.CharField(max_length=100, default='', blank = True, null=True)
 
-    vehicalSeats = models.IntegerField(default=0)
+    vehicalSeats = models.IntegerField(default=0, null=True)
     vehicalLicence = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalOwner = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalEngineNumber = models.CharField(max_length=255, default='', blank = True, null=True)
