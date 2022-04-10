@@ -26,6 +26,23 @@ class BusViewSet(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+class TourBusImageViewSet(viewsets.GenericViewSet,
+                    mixins.ListModelMixin,
+                    mixins.CreateModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.DestroyModelMixin):
+
+    queryset = TourBusImage.objects.all()
+    serializer_class = serializers.TourBusImageSerializer
+
+    def get_queryset(self):
+        if self.request.query_params.get('bus_id')!=None:
+            bus_id = self.request.query_params.get('bus_id')
+            return self.queryset.filter(tourBus=bus_id)
+        else:
+            return self.queryset
+
+
 class OrderViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
                     mixins.RetrieveModelMixin,

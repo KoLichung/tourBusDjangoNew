@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from tourBusCore.models import User, TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent,City, County
+from tourBusCore.models import TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent,City, County
 
 class TourBusSerializer(serializers.ModelSerializer):
     class Meta:
         model = TourBus
         fields = '__all__'
         read_only_fields = ('id','user')
+
+class TourBusImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TourBusImage
+        fields = '__all__'
+        read_only_fields = ('id',)
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

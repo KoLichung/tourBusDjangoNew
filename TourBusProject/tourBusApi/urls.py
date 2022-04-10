@@ -10,6 +10,7 @@ router.register('bus_rent_days', views.RentDayViewSet)
 router.register('search_bus', views.SearchBusViewSet)
 router.register('cities', views.CityViewSet)
 router.register('counties', views.CountyViewSet)
+router.register('tour_bus_images', views.TourBusImageViewSet)
 
 app_name = 'tourBusApi'
 
