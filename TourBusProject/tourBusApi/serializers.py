@@ -10,7 +10,7 @@ class TourBusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TourBus
-        fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalEngineNumber','vehicalBodyNumber','vehicalLicenceImage','coverImage', 'recent_start_date', 'recent_end_date')
+        fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalEngineNumber','vehicalBodyNumber','vehicalLicenceImage', 'isPublish','coverImage', 'recent_start_date', 'recent_end_date')
         read_only_fields = ('id','user')
 
 class TourBusImageSerializer(serializers.ModelSerializer):
