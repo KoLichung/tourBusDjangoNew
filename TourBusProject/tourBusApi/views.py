@@ -1,4 +1,3 @@
-
 from rest_framework import viewsets, mixins
 from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
@@ -8,6 +7,7 @@ from rest_framework.response import Response
 
 from tourBusCore.models import User, TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent,City, County, SmsVerifyCode
 from tourBusApi import serializers
+from django.db.models import Q
 
 class BusViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
@@ -21,7 +21,15 @@ class BusViewSet(viewsets.GenericViewSet,
     serializer_class = serializers.TourBusSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        queryset = self.queryset.filter(user=self.request.user).order_by('-id')
+        for i in range(len(queryset)):
+            if TourBusImage.objects.filter(tourBus=queryset[i]).count() != 0:
+                queryset[i].coverImage = TourBusImage.objects.filter(tourBus=queryset[i]).first().image
+            if TourBusRentDay.objects.filter(tourBus=queryset[i]).filter(Q(state="ordered") | Q(state="pasted")).count()!=0:
+                recentDay = TourBusRentDay.objects.filter(tourBus=queryset[i]).filter(Q(state="ordered") | Q(state="pasted")).last()
+                queryset[i].recent_start_date = recentDay.startDate
+                queryset[i].recent_end_date = recentDay.endDate
+        return queryset
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

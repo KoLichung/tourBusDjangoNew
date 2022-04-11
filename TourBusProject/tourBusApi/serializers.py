@@ -2,9 +2,15 @@ from rest_framework import serializers
 from tourBusCore.models import TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent,City, County
 
 class TourBusSerializer(serializers.ModelSerializer):
+    # coverImage = serializers.ImageField(max_length=None, allow_empty_file=True)
+    # CategoryNum = serializers.IntegerField(default='0')
+    coverImage = serializers.CharField(read_only=True)
+    recent_start_date = serializers.DateTimeField(read_only=True)
+    recent_end_date = serializers.DateTimeField(read_only=True)
+
     class Meta:
         model = TourBus
-        fields = '__all__'
+        fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalEngineNumber','vehicalBodyNumber','vehicalLicenceImage','coverImage', 'recent_start_date', 'recent_end_date')
         read_only_fields = ('id','user')
 
 class TourBusImageSerializer(serializers.ModelSerializer):
