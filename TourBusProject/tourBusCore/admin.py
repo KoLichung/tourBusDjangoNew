@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent, City, County
+from .models import User, TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent, City, County, PayInfo
 from .models import SmsVerifyCode
 
 @admin.register(User)
@@ -21,6 +21,10 @@ class TourBusRentDayAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id','user', 'tourBus', 'startDate', 'endDate')
+
+@admin.register(PayInfo)
+class PayInfoAdmin(admin.ModelAdmin):
+    list_display = ('id','order', 'PaymentType')
 
 @admin.register(AnnounceMent)
 class AnnounceMentAdmin(admin.ModelAdmin):

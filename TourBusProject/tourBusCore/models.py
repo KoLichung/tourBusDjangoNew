@@ -123,6 +123,35 @@ class Order(models.Model):
     depatureCity = models.CharField(max_length=100, default='', blank = True, null=True)
     destinationCity = models.CharField(max_length=100, default='', blank = True, null=True)
 
+class PayInfo(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.RESTRICT
+    )
+
+    PaymentType = models.CharField(max_length=100, default='', blank = True, null=True)
+    MerchantID = models.CharField(max_length=100, default='', blank = True, null=True)
+
+    OrderInfoMerchantTradeNo = models.CharField(max_length=100, default='', blank = True, null=True)
+    OrderInfoTradeDate = models.DateTimeField(auto_now=False,null=True)
+    OrderInfoTradeNo = models.CharField(max_length=100, default='', blank = True, null=True)
+    OrderInfoTradeAmt = models.IntegerField(default=0, null=True)
+    OrderInfoPaymentType = models.CharField(max_length=20, default='', blank = True, null=True)
+    OrderInfoChargeFee = models.DecimalField(max_digits=9, decimal_places=2, null=True)
+    OrderInfoTradeStatus = models.CharField(max_length=20, default='', blank = True, null=True)
+
+    ATMInfoBankCode = models.CharField(max_length=20, default='', blank = True, null=True)
+    ATMInfovAccount = models.CharField(max_length=20, default='', blank = True, null=True)
+    ATMInfoExpireDate = models.DateTimeField(auto_now=False,null=True)
+
+    CardInfoAuthCode = models.CharField(max_length=100, default='', blank = True, null=True)
+    CardInfoGwsr = models.IntegerField(default=0, null=True)
+    CardInfoProcessDate =  models.DateTimeField(auto_now=False,null=True)
+    CardInfoAmount = models.IntegerField(default=0, null=True)
+    CardInfoCard6No = models.CharField(max_length=20, default='', blank = True, null=True)
+    CardInfoCard4No = models.CharField(max_length=20, default='', blank = True, null=True)
+
+
 class AnnounceMent(models.Model):
     user = models.ForeignKey(
         User,

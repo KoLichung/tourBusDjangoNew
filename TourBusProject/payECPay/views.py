@@ -6,6 +6,9 @@ import requests
 import json
 import time
 import urllib.parse
+import logging
+
+logger = logging.getLogger(__file__)
 
 class GetTokenView(APIView):
 
@@ -65,3 +68,17 @@ class GetTokenView(APIView):
         the_data = urllib.parse.unquote(decrypt_text)
 
         return Response(json.loads(the_data))
+
+class PaymentResultCallback(APIView):
+
+    def post(self, request, format=None):
+        # body_unicode = request.body.decode('utf-8')
+        body = json.loads(request.body)
+        print(body)
+
+        logger.info(body)
+
+        # content = body['content']
+        # print(content)
+
+        return Response("1|OK")
