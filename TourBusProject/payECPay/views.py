@@ -26,7 +26,7 @@ class GetTokenView(APIView):
         timeStamp = int( time.time() )
 
         data = {
-                "MerchantID": "3002607",
+                "MerchantID": "1332298",
                 "RememberCard": 0,
                 "PaymentUIType": 2,
                 "ChoosePaymentList": "1,3",
