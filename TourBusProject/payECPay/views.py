@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .aesCipher import AESCipher
 from datetime import datetime
+from random import randint
 
 import requests
 import json
@@ -12,6 +13,11 @@ import logging
 from tourBusCore.models import PayInfo, Order
 
 logger = logging.getLogger(__file__)
+
+def random_with_N_digits(n):
+        range_start = 10**(n-1)
+        range_end = (10**n)-1
+        return randint(range_start, range_end)
 
 class GetTokenView(APIView):
 
@@ -25,8 +31,8 @@ class GetTokenView(APIView):
                 "PaymentUIType": 2,
                 "ChoosePaymentList": "1,3",
                 "OrderInfo": {
-                    "MerchantTradeNo": "J202203170903",
-                    "MerchantTradeDate": "2022/03/17 09:03:12",
+                    "MerchantTradeNo": f"J{random_with_N_digits(12)}",
+                    "MerchantTradeDate": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
                     "TotalAmount": 100,
                     "ReturnURL": "http://45.77.25.172/api/ecpay/post_callback",
                     "TradeDesc": "item description",
@@ -127,3 +133,5 @@ class PaymentResultCallback(APIView):
         # print(content)
 
         return Response("1|OK")
+
+    
