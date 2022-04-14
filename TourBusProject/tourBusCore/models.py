@@ -128,10 +128,10 @@ class PayInfo(models.Model):
         Order,
         on_delete=models.RESTRICT
     )
-
+    
     PaymentType = models.CharField(max_length=100, default='', blank = True, null=True)
     MerchantID = models.CharField(max_length=100, default='', blank = True, null=True)
-
+    
     OrderInfoMerchantTradeNo = models.CharField(max_length=100, default='', blank = True, null=True)
     OrderInfoTradeDate = models.DateTimeField(auto_now=False,null=True)
     OrderInfoTradeNo = models.CharField(max_length=100, default='', blank = True, null=True)
