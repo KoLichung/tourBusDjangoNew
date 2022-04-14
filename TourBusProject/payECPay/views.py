@@ -120,7 +120,8 @@ class PaymentResultCallback(APIView):
         # print(the_data)
 
 
-        # logger.info(body)
+        logger.info(body)
+        logger.info(data_json)
 
         # content = body['content']
         # print(content)
