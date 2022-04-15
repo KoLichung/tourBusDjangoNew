@@ -22,16 +22,22 @@ def random_with_N_digits(n):
 class GetTokenView(APIView):
 
     def get(self, request, format=None):
-        post_url = 'https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade'
+
+        order_id = self.request.query_params.get('order_id')
+        merchantTradeNo = f"A{order_id}{random_with_N_digits(6)}"
+
+        # post_url = 'https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade'
+        post_url = 'https://ecpg.ecpay.com.tw/Merchant/GetTokenbyTrade'
         timeStamp = int( time.time() )
 
+        # "MerchantID": "3002607" 測試用
         data = {
                 "MerchantID": "1332298",
                 "RememberCard": 0,
                 "PaymentUIType": 2,
                 "ChoosePaymentList": "1,3",
                 "OrderInfo": {
-                    "MerchantTradeNo": f"J{random_with_N_digits(12)}",
+                    "MerchantTradeNo": merchantTradeNo,
                     "MerchantTradeDate": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
                     "TotalAmount": 100,
                     "ReturnURL": "http://45.77.25.172/api/ecpay/post_callback",
@@ -52,7 +58,7 @@ class GetTokenView(APIView):
                     "Name": "Test",
                     "CountryCode": "158"
                 },
-                "CustomField": "1",
+                "CustomField": f"{order_id}",
         }
         
         print(str(data).replace(": ",':').replace(", ",',').replace("'",'"'))
@@ -63,7 +69,7 @@ class GetTokenView(APIView):
         encrypt_text = cipher.encrypt(encode_text)
 
         postData = {
-            "MerchantID": "3002607",
+            "MerchantID": "1332298",
             "RqHeader": {
                 "Timestamp": str(timeStamp),
                 "Revision": "1.3.22"

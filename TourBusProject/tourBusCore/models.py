@@ -99,7 +99,7 @@ class TourBusRentDay(models.Model):
         on_delete=models.CASCADE
     )
 
-    # avaliable, ordered, pasted
+    # available, ordered, pasted
     state = models.CharField(max_length=100, default='', blank = True, null=True)
     startDate = models.DateTimeField(auto_now=False,null=True)
     endDate = models.DateTimeField(auto_now=False,null=True)

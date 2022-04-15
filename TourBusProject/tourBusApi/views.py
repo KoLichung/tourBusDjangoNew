@@ -68,13 +68,17 @@ class OrderViewSet(viewsets.GenericViewSet,
 class RentDayViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
                     mixins.RetrieveModelMixin,
-                    mixins.CreateModelMixin,):
+                    mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin):
     queryset = TourBusRentDay.objects.all()
     serializer_class = serializers.TourBusRentDaySerializer
 
     def get_queryset(self):
-        bus_id = self.request.query_params.get('bus_id')
-        return self.queryset.filter(tourBus=TourBus.objects.get(id=bus_id))
+        if self.request.query_params.get('bus_id') != None:
+            bus_id = self.request.query_params.get('bus_id')
+            return self.queryset.filter(tourBus=TourBus.objects.get(id=bus_id))
+        else:
+            return self.queryset
 
 class SearchBusViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,):
