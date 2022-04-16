@@ -25,7 +25,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('id', 'user', 'tourBus', 'state', 'startDate', 'endDate', 'depatureCity', 'destinationCity', 'orderMoney', 'depositMoney', 'busTitle')
-        read_only_fields = ('id',)
+        read_only_fields = ('id','user', 'state')
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
