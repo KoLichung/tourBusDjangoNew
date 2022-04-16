@@ -63,7 +63,7 @@ class OrderViewSet(viewsets.GenericViewSet,
     serializer_class = serializers.OrderSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user).order_by('-id')
 
 class RentDayViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
