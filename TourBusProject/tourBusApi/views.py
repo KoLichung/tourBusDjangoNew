@@ -118,4 +118,18 @@ class SmsVerifyViewSet(APIView):
         else:
             return Response({'message': "wrong phone number type"})
 
+class AnnouncementViewSet(viewsets.GenericViewSet,
+                    mixins.ListModelMixin,
+                    mixins.CreateModelMixin):
+    
+    queryset = AnnounceMent.objects.all()
+    serializer_class = serializers.AnnouncementSerializer
+
+    def get_queryset(self):
+        return self.queryset.order_by('-id')[:10]
+
+    def perform_create(self, serializer):
+        user = serializer.validated_data['user']
+        serializer.save(phone=user.phone, name=user.name)
+
 

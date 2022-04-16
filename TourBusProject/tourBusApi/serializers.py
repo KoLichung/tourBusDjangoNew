@@ -54,3 +54,9 @@ class CountySerializer(serializers.ModelSerializer):
         model = County
         fields = '__all__'
         read_only_fields = ('id',)
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnnounceMent
+        fields = '__all__'
+        read_only_fields = ('id','phone', 'name')

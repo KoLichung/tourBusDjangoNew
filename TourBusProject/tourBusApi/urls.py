@@ -11,6 +11,7 @@ router.register('search_bus', views.SearchBusViewSet)
 router.register('cities', views.CityViewSet)
 router.register('counties', views.CountyViewSet)
 router.register('tour_bus_images', views.TourBusImageViewSet)
+router.register('announcements', views.AnnouncementViewSet)
 
 app_name = 'tourBusApi'
 
