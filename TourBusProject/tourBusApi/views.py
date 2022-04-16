@@ -121,7 +121,8 @@ class SmsVerifyViewSet(APIView):
 class AnnouncementViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
                     mixins.CreateModelMixin):
-    
+    authentication_classes = (TokenAuthentication,)
+
     queryset = AnnounceMent.objects.all()
     serializer_class = serializers.AnnouncementSerializer
 
