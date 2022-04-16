@@ -59,4 +59,4 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnnounceMent
         fields = '__all__'
-        read_only_fields = ('id','phone', 'name')
+        read_only_fields = ('id','user','phone', 'name')

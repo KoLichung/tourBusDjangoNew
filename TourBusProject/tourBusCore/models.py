@@ -163,9 +163,9 @@ class AnnounceMent(models.Model):
         User,
         on_delete=models.CASCADE
     )
-    phone = models.CharField(max_length=10, unique=True, blank = True, null=True)
+    phone = models.CharField(max_length=10, blank = True, null=True)
     name = models.CharField(max_length=255, blank = True, null=True)
-    
+
     announceDateTime = models.DateTimeField(auto_now=False,null=True)
     numbersOfPeople = models.IntegerField(default=0)
     startDateTime = models.DateTimeField(auto_now=False,null=True)

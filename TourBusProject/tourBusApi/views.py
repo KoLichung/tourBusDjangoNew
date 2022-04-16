@@ -129,7 +129,8 @@ class AnnouncementViewSet(viewsets.GenericViewSet,
         return self.queryset.order_by('-id')[:10]
 
     def perform_create(self, serializer):
-        user = serializer.validated_data['user']
-        serializer.save(phone=user.phone, name=user.name)
+        # user = serializer.validated_data['user']
+        user = self.request.user
+        serializer.save(user=user, phone=user.phone, name=user.name)
 
 
