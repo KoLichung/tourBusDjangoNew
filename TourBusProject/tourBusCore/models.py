@@ -80,6 +80,7 @@ class TourBus(models.Model):
     vehicalEngineNumber = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalBodyNumber = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalLicenceImage = models.ImageField(upload_to=image_upload_handler, blank=True, null=True)
+    vehicalYearOfManufacture = models.CharField(max_length=20, default='', blank = True, null=True)
 
     isPublish = models.BooleanField(default=False, null=True)
 
@@ -109,12 +110,14 @@ class Order(models.Model):
         User,
         on_delete=models.RESTRICT
     )
+
     tourBus = models.ForeignKey(
         TourBus,
         on_delete=models.RESTRICT
     )
 
-    # waitOwnerCheck, ownerCanceled, waitForDeposit, ownerWillContact, onTheWay, closed
+    # waitOwnerCheck, ownerCanceled, waitForDeposit, waitForAtmDeposit
+    # ownerWillContact, onTheWay, closed
     state =  models.CharField(max_length=100, default='', blank = True, null=True)
 
     startDate = models.DateTimeField(auto_now=False,null=True)
@@ -122,6 +125,9 @@ class Order(models.Model):
 
     depatureCity = models.CharField(max_length=100, default='', blank = True, null=True)
     destinationCity = models.CharField(max_length=100, default='', blank = True, null=True)
+
+    orderMoney = models.IntegerField(default=0, null=True)
+    depositMoney = models.IntegerField(default=0, null=True)
 
 class PayInfo(models.Model):
     order = models.ForeignKey(

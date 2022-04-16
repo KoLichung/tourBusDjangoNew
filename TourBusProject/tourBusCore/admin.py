@@ -8,7 +8,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(TourBus)
 class TourBusAdmin(admin.ModelAdmin):
-    list_display = ('id','user', 'title', 'city', 'county')
+    list_display = ('id','user', 'title', 'vehicalYearOfManufacture','city', 'county')
 
 @admin.register(TourBusImage)
 class TourBusImageAdmin(admin.ModelAdmin):

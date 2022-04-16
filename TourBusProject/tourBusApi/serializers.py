@@ -10,7 +10,7 @@ class TourBusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TourBus
-        fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalEngineNumber','vehicalBodyNumber','vehicalLicenceImage', 'isPublish','coverImage', 'recent_start_date', 'recent_end_date')
+        fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalEngineNumber','vehicalBodyNumber','vehicalLicenceImage', 'vehicalYearOfManufacture','isPublish','coverImage', 'recent_start_date', 'recent_end_date')
         read_only_fields = ('id','user')
 
 class TourBusImageSerializer(serializers.ModelSerializer):
@@ -20,10 +20,22 @@ class TourBusImageSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
 class OrderSerializer(serializers.ModelSerializer):
+    busTitle = serializers.CharField(read_only=True)
+
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ('id', 'user', 'tourBus', 'state', 'startDate', 'endDate', 'depatureCity', 'destinationCity', 'orderMoney', 'depositMoney', 'busTitle')
         read_only_fields = ('id',)
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['busTitle'] =  instance.tourBus.title
+        return rep
+
+    # def to_representation(self, instance):
+    #     rep = super().to_representation(instance)
+    #     rep['tourBus'] =  TourBusSerializer(instance.tourBus).data
+    #     return rep
 
 class TourBusRentDaySerializer(serializers.ModelSerializer):
     class Meta:
