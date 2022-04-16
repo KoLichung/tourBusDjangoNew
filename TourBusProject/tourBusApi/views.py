@@ -50,7 +50,6 @@ class TourBusImageViewSet(viewsets.GenericViewSet,
         else:
             return self.queryset
 
-
 class OrderViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
                     mixins.RetrieveModelMixin,
@@ -86,7 +85,11 @@ class SearchBusViewSet(viewsets.GenericViewSet,
     serializer_class = serializers.TourBusSerializer
 
     def get_queryset(self):
-        return self.queryset
+        queryset = self.queryset
+        for i in range(len(queryset)):
+            if TourBusImage.objects.filter(tourBus=queryset[i]).count() != 0:
+                queryset[i].coverImage = TourBusImage.objects.filter(tourBus=queryset[i]).first().image
+        return queryset
 
 class CityViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,):
