@@ -19,5 +19,10 @@ def sendFcmInquiry():
     )
     devices = FCMDevice.objects.all()
     for device in devices:
-        if device.user.isOwner:
-            device.send_message(message)
+        print('here')
+        try:
+            if device.user.isOwner:
+                print('here 2')
+                device.send_message(message)
+        except:
+            print('error next')
