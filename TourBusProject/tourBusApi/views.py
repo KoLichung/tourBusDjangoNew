@@ -10,6 +10,7 @@ from tourBusApi import serializers
 from django.db.models import Q
 from datetime import datetime
 from django.utils.timezone import make_aware
+from fcm_django.models import FCMDevice
 
 class BusViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
@@ -156,4 +157,27 @@ class AnnouncementViewSet(viewsets.GenericViewSet,
         user = self.request.user
         serializer.save(user=user, phone=user.phone, name=user.name)
 
+        from tourBusApi.tasks.fcmTasks import sendFcmInquiry
+        sendFcmInquiry()
+
+class FCMDeviceViewSet(APIView):
+
+    def post(self, request, format=None):
+        #name, active
+        try:  
+            user_id = request.data.get('user_id')
+            registration_id = request.data.get('registration_id')
+            device_id = request.data.get('device_id')
+            type = request.data.get('type')
+
+            fcmDevice = FCMDevice()
+            fcmDevice.user = User.objects.get(id=user_id)
+            fcmDevice.registration_id = registration_id
+            fcmDevice.device_id = device_id
+            fcmDevice.type = type
+            fcmDevice.save()
+
+            return Response({'message': "ok"})
+        except:
+            return Response({'message': "error"})
 

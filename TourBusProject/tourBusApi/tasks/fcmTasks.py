@@ -12,3 +12,12 @@ def sendTest():
     )
     devices = FCMDevice.objects.all()
     devices.send_message(message)
+
+def sendFcmInquiry():
+    message = Message(
+        notification= Notification(title="新需求單來囉！", body="回 app 查看~"),
+    )
+    devices = FCMDevice.objects.all()
+    for device in devices:
+        if device.user.isOwner:
+            device.send_message(message)

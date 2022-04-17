@@ -18,4 +18,5 @@ app_name = 'tourBusApi'
 urlpatterns = [
     path('', include(router.urls)),
     path('sms_verify', views.SmsVerifyViewSet.as_view()),
+    path('device_register', views.FCMDeviceViewSet.as_view()),
 ]
