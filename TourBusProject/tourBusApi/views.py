@@ -170,14 +170,16 @@ class FCMDeviceViewSet(APIView):
             device_id = request.data.get('device_id')
             type = request.data.get('type')
 
-            fcmDevice = FCMDevice()
-            fcmDevice.user = User.objects.get(id=user_id)
-            fcmDevice.registration_id = registration_id
-            fcmDevice.device_id = device_id
-            fcmDevice.type = type
-            fcmDevice.save()
-
-            return Response({'message': "ok"})
+            if FCMDevice.objects.filter(device_id=device_id).count() == 0:
+                fcmDevice = FCMDevice()
+                fcmDevice.user = User.objects.get(id=user_id)
+                fcmDevice.registration_id = registration_id
+                fcmDevice.device_id = device_id
+                fcmDevice.type = type
+                fcmDevice.save()
+                return Response({'message': "ok"})
+            else:
+                return Response({'message': "already regist fcm device"})
         except:
             return Response({'message': "error"})
 
