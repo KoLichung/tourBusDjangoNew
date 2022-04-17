@@ -83,6 +83,7 @@ class TourBus(models.Model):
     vehicalYearOfManufacture = models.CharField(max_length=20, default='', blank = True, null=True)
 
     isPublish = models.BooleanField(default=False, null=True)
+    isTop = models.BooleanField(default=False, null=True)
 
 class TourBusImage(models.Model):
     tourBus = models.ForeignKey(

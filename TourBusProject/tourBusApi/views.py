@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from tourBusCore.models import User, TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent,City, County, SmsVerifyCode
 from tourBusApi import serializers
 from django.db.models import Q
+from datetime import datetime
+from django.utils.timezone import make_aware
 
 class BusViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
@@ -88,11 +90,31 @@ class SearchBusViewSet(viewsets.GenericViewSet,
     serializer_class = serializers.TourBusSerializer
 
     def get_queryset(self):
-        queryset = self.queryset
+        fromCityId = self.request.query_params.get('departure_city_id')
+        toCityId = self.request.query_params.get('destination_city_id')
+        startDate = make_aware(datetime.strptime(self.request.query_params.get('startDate'), '%Y%m%d'))
+        endDate = make_aware(datetime.strptime(self.request.query_params.get('endtDate'), '%Y%m%d'))
+        numberOfPeople = int(self.request.query_params.get('numberOfPeople'))
+        
+        theBusses = []
+        new_queryset = self.queryset.filter(isTop=True)
+        for i in range(len(new_queryset)):
+            if TourBusImage.objects.filter(tourBus=new_queryset[i]).count() != 0:
+                new_queryset[i].coverImage = TourBusImage.objects.filter(tourBus=new_queryset[i]).first().image
+            theBusses.append(new_queryset[i])
+
+        queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople).filter(city=City.objects.get(id=fromCityId))
         for i in range(len(queryset)):
+
             if TourBusImage.objects.filter(tourBus=queryset[i]).count() != 0:
                 queryset[i].coverImage = TourBusImage.objects.filter(tourBus=queryset[i]).first().image
-        return queryset
+
+            rentDays = TourBusRentDay.objects.filter(tourBus=queryset[i], state='available')
+            for day in rentDays:
+                if startDate >= day.startDate and endDate <= day.endDate:
+                    theBusses.append(queryset[i])
+            
+        return theBusses
 
 class CityViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,):
