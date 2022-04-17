@@ -132,11 +132,11 @@ class SmsVerifyViewSet(APIView):
         from tourBusApi.tasks.smsTasks import randSmsVerifyCode
         phone= self.request.query_params.get('phone')
         if phone!= None and len(phone) == 10:
-            if SmsVerifyCode.objects.filter(phone=phone, is_expired=False).count() ==0:
+            # if SmsVerifyCode.objects.filter(phone=phone, is_expired=False).count() ==0:
                 code = randSmsVerifyCode(phone)
                 return Response({'message': "ok", 'code': code})
-            else:
-                return Response({'message': "this phone already got verify code, try later"})
+            # else:
+                # return Response({'message': "this phone already got verify code, try later"})
         else:
             return Response({'message': "wrong phone number type"})
 
