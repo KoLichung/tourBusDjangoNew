@@ -154,11 +154,13 @@ class AnnouncementViewSet(viewsets.GenericViewSet,
 
     def perform_create(self, serializer):
         # user = serializer.validated_data['user']
+        from tourBusApi.tasks.fcmTasks import sendFcmInquiry
+        sendFcmInquiry()
+
         user = self.request.user
         serializer.save(user=user, phone=user.phone, name=user.name)
 
-        from tourBusApi.tasks.fcmTasks import sendFcmInquiry
-        sendFcmInquiry()
+        
 
 class FCMDeviceViewSet(APIView):
 
