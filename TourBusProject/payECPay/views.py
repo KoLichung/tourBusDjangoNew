@@ -102,6 +102,8 @@ class PaymentResultCallback(APIView):
         the_data = urllib.parse.unquote(decrypt_text)
 
         data_json = json.loads(the_data)
+        
+        print(data_json)
 
         if(PayInfo.objects.filter(OrderInfoMerchantTradeNo=data_json['OrderInfo']['MerchantTradeNo']).count()==0 ):
             payInfo = PayInfo()
@@ -114,7 +116,10 @@ class PaymentResultCallback(APIView):
                 payInfo.OrderInfoTradeAmt = data_json['OrderInfo']['TradeAmt']
                 payInfo.OrderInfoPaymentType = data_json['OrderInfo']['PaymentType']
                 payInfo.OrderInfoChargeFee = data_json['OrderInfo']['ChargeFee']
-                payInfo.OrderInfoTradeStatus = data_json['OrderInfo']['TradeStatus']
+                try:
+                    payInfo.OrderInfoTradeStatus = data_json['OrderInfo']['TradeStatus']
+                except:
+                    logger.info("no trade status")
 
             if(data_json['CardInfo']!=None):
                 payInfo.PaymentType = "信用卡"
