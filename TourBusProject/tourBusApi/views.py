@@ -158,9 +158,7 @@ class AnnouncementViewSet(viewsets.GenericViewSet,
         sendFcmInquiry()
 
         user = self.request.user
-        serializer.save(user=user, phone=user.phone, name=user.name)
-
-        
+        serializer.save(user=user, phone=user.phone, name=user.name)     
 
 class FCMDeviceViewSet(APIView):
 
@@ -185,3 +183,27 @@ class FCMDeviceViewSet(APIView):
         except:
             return Response({'message': "error"})
 
+class OwnerBussesOrdersViewSet(APIView):
+    authentication_classes = (TokenAuthentication,)
+
+    def get(self, request, format=None):
+        user = self.request.user
+        buses = TourBus.objects.filter(user=user)
+        orders = Order.objects.filter(tourBus__in=buses)
+        serializer = serializers.OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+
+class OwnerUpdateOrderStateViewSet(APIView):
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, format=None):
+        user = self.request.user
+        state = request.data.get('state')
+        order_id = request.data.get('order_id')
+        order = Order.objects.get(id=order_id)
+        if order.tourBus.user == user:
+            order.state = state
+            order.save()
+            return Response({'message': "ok"})
+        else:
+            return Response({'message': "have no authority"})

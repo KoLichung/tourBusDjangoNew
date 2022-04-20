@@ -21,15 +21,19 @@ class TourBusImageSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     busTitle = serializers.CharField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    phone = serializers.CharField(read_only=True)
 
     class Meta:
         model = Order
-        fields = ('id', 'user', 'tourBus', 'state', 'startDate', 'endDate', 'depatureCity', 'destinationCity', 'orderMoney', 'depositMoney', 'busTitle')
-        read_only_fields = ('id','user', 'state')
+        fields = ('id', 'user', 'tourBus', 'state', 'startDate', 'endDate', 'depatureCity', 'destinationCity', 'orderMoney', 'depositMoney', 'busTitle', 'name', 'phone')
+        read_only_fields = ('id','user', 'state', 'busTitle', 'name', 'phone')
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         rep['busTitle'] =  instance.tourBus.title
+        rep['name'] = instance.user.name
+        rep['phone'] = instance.user.phone
         return rep
 
     # def to_representation(self, instance):

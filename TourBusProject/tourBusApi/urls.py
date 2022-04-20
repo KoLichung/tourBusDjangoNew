@@ -19,4 +19,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('sms_verify', views.SmsVerifyViewSet.as_view()),
     path('device_register', views.FCMDeviceViewSet.as_view()),
+    path('owner_orders', views.OwnerBussesOrdersViewSet.as_view()),
+    path('owner_update_state', views.OwnerUpdateOrderStateViewSet.as_view()),
 ]
