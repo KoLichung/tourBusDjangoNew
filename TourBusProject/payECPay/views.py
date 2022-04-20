@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from .aesCipher import AESCipher
 from datetime import datetime
 from random import randint
+from django.utils.timezone import make_aware
 
 import requests
 import json
@@ -44,7 +45,7 @@ class GetTokenView(APIView):
                 "ChoosePaymentList": "1,3",
                 "OrderInfo": {
                     "MerchantTradeNo": merchantTradeNo,
-                    "MerchantTradeDate": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
+                    "MerchantTradeDate": make_aware(datetime.now()).strftime("%Y/%m/%d %H:%M:%S"),
                     "TotalAmount": f"{order.depositMoney}",
                     "ReturnURL": "http://45.77.25.172/api/ecpay/post_callback",
                     "TradeDesc": "遊覽車訂閱",
