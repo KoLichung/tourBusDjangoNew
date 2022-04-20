@@ -109,7 +109,7 @@ class PaymentResultCallback(APIView):
             payInfo = PayInfo()
             payInfo.MerchantID = data_json['MerchantID']
 
-            if(data_json['OrderInfo']!=None):
+            if( 'OrderInfo' in data_json):
                 payInfo.OrderInfoMerchantTradeNo = data_json['OrderInfo']['MerchantTradeNo']
                 payInfo.OrderInfoTradeDate = datetime.strptime(data_json['OrderInfo']['TradeDate'], "%Y/%m/%d %H:%M:%S")  
                 payInfo.OrderInfoTradeNo = data_json['OrderInfo']['TradeNo']
@@ -120,8 +120,9 @@ class PaymentResultCallback(APIView):
                     payInfo.OrderInfoTradeStatus = data_json['OrderInfo']['TradeStatus']
                 except:
                     logger.info("no trade status")
+            
 
-            if(data_json['CardInfo']!=None):
+            if('CardInfo' in data_json):
                 payInfo.PaymentType = "信用卡"
                 payInfo.CardInfoAuthCode = data_json['CardInfo']['AuthCode']
                 payInfo.CardInfoGwsr = data_json['CardInfo']['Gwsr']
@@ -130,16 +131,23 @@ class PaymentResultCallback(APIView):
                 payInfo.CardInfoCard6No = data_json['CardInfo']['Card6No']
                 payInfo.CardInfoCard4No = data_json['CardInfo']['Card4No']
             
-            if(data_json['CustomField']!=None):
-                payInfo.order = Order.objects.get(id= int(data_json['CustomField']) )
+            if('ATMInfo' in data_json):
+                print("atm info")
+            else:
+                print("no atm info")
+
+            if('CustomField' in data_json):
+                try:
+                    payInfo.order = Order.objects.get(id= int(data_json['CustomField']) )
+                    payInfo.save()
+                except:
+                    print("can't find order custom field error")
             else:
                 payInfo.order = Order.objects.get(id=1)
-
-            payInfo.save()
+                payInfo.save()
             
             
         # print(the_data)
-
 
         logger.info(body)
         logger.info(data_json)
