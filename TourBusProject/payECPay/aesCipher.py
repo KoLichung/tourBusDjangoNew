@@ -7,12 +7,12 @@ import base64
 class AESCipher(object):
 
     def __init__(self):
-        self.key = 'VBLWL1eyv1H3dyeU'.encode('utf8')
-        self.iv = '2XGjZEOT3m9wZfBP'.encode('utf8')
+        # self.key = 'VBLWL1eyv1H3dyeU'.encode('utf8')
+        # self.iv = '2XGjZEOT3m9wZfBP'.encode('utf8')
 
         # 以下為測試用 # "MerchantID": "3002607"
-        # self.key = 'pwFHCqoQZGmho4w6'.encode('utf8')
-        # self.iv = 'EkRm7iFT261dpevs'.encode('utf8')
+        self.key = 'pwFHCqoQZGmho4w6'.encode('utf8')
+        self.iv = 'EkRm7iFT261dpevs'.encode('utf8')
         self.mode = AES.MODE_CBC
 
     # command line test

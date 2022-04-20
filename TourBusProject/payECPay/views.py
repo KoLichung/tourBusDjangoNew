@@ -26,13 +26,17 @@ class GetTokenView(APIView):
         order_id = self.request.query_params.get('order_id')
         merchantTradeNo = f"A{order_id}{random_with_N_digits(6)}"
 
-        # post_url = 'https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade'
-        post_url = 'https://ecpg.ecpay.com.tw/Merchant/GetTokenbyTrade'
+        post_url = 'https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade'
+        # post_url = 'https://ecpg.ecpay.com.tw/Merchant/GetTokenbyTrade'
         timeStamp = int( time.time() )
+        
+        # 測試用
+        merchandID= "3002607"
+        # 正式用
+        # merchandID= "1332298"
 
-        # "MerchantID": "3002607" 測試用
         data = {
-                "MerchantID": "1332298",
+                "MerchantID": merchandID,
                 "RememberCard": 0,
                 "PaymentUIType": 2,
                 "ChoosePaymentList": "1,3",
@@ -69,7 +73,7 @@ class GetTokenView(APIView):
         encrypt_text = cipher.encrypt(encode_text)
 
         postData = {
-            "MerchantID": "1332298",
+            "MerchantID": merchandID,
             "RqHeader": {
                 "Timestamp": str(timeStamp),
                 "Revision": "1.3.22"
