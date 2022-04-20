@@ -21,4 +21,6 @@ urlpatterns = [
     path('device_register', views.FCMDeviceViewSet.as_view()),
     path('owner_orders', views.OwnerBussesOrdersViewSet.as_view()),
     path('owner_update_state', views.OwnerUpdateOrderStateViewSet.as_view()),
+    path('owner_update_memo', views.OwnerUpdateOrderMemoViewSet.as_view()),
+    path('get_order_image', views.GetOrderImageViewSet.as_view()),
 ]

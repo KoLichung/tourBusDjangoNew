@@ -23,10 +23,11 @@ class OrderSerializer(serializers.ModelSerializer):
     busTitle = serializers.CharField(read_only=True)
     name = serializers.CharField(read_only=True)
     phone = serializers.CharField(read_only=True)
+    coverImage = serializers.CharField(read_only=True)
 
     class Meta:
         model = Order
-        fields = ('id', 'user', 'tourBus', 'state', 'startDate', 'endDate', 'depatureCity', 'destinationCity', 'orderMoney', 'depositMoney', 'busTitle', 'name', 'phone')
+        fields = ('id', 'user', 'tourBus', 'state', 'startDate', 'endDate', 'depatureCity', 'destinationCity', 'orderMoney', 'depositMoney', 'busTitle', 'name', 'phone', 'memo', 'coverImage')
         read_only_fields = ('id','user', 'state', 'busTitle', 'name', 'phone')
 
     def to_representation(self, instance):

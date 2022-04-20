@@ -130,6 +130,8 @@ class Order(models.Model):
     orderMoney = models.IntegerField(default=0, null=True)
     depositMoney = models.IntegerField(default=0, null=True)
 
+    memo = models.TextField(default='', null=True)
+
 class PayInfo(models.Model):
     order = models.ForeignKey(
         Order,

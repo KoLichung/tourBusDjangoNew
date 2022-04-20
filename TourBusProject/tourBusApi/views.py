@@ -207,3 +207,26 @@ class OwnerUpdateOrderStateViewSet(APIView):
             return Response({'message': "ok"})
         else:
             return Response({'message': "have no authority"})
+
+class OwnerUpdateOrderMemoViewSet(APIView):
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, format=None):
+        user = self.request.user
+        memo = request.data.get('memo')
+        order_id = request.data.get('order_id')
+        order = Order.objects.get(id=order_id)
+        if order.tourBus.user == user:
+            order.memo = memo
+            order.save()
+            return Response({'message': "ok"})
+        else:
+            return Response({'message': "have no authority"})
+
+class GetOrderImageViewSet(APIView):
+
+    def get(self, request, format=None):
+        order_id = request.query_params.get('order_id')
+        order = Order.objects.get(id=order_id)
+        busImage = TourBusImage.objects.filter(tourBus=order.tourBus).first()
+        return Response({'image': busImage.image.url})
