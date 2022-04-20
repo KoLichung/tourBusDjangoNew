@@ -40,4 +40,4 @@ class CountyAdmin(admin.ModelAdmin):
 
 @admin.register(SmsVerifyCode)
 class SmsVerifyCodeAdmin(admin.ModelAdmin):
-    list_display = ('id','phone', 'code', 'is_expired')
+    list_display = ('id','phone', 'code')

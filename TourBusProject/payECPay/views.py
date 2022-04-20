@@ -26,6 +26,8 @@ class GetTokenView(APIView):
         order_id = self.request.query_params.get('order_id')
         merchantTradeNo = f"A{order_id}{random_with_N_digits(6)}"
 
+        order = Order.objects.get(id=order_id)
+
         post_url = 'https://ecpg-stage.ecpay.com.tw/Merchant/GetTokenbyTrade'
         # post_url = 'https://ecpg.ecpay.com.tw/Merchant/GetTokenbyTrade'
         timeStamp = int( time.time() )
@@ -43,10 +45,10 @@ class GetTokenView(APIView):
                 "OrderInfo": {
                     "MerchantTradeNo": merchantTradeNo,
                     "MerchantTradeDate": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
-                    "TotalAmount": 100,
+                    "TotalAmount": f"{order.depositMoney}",
                     "ReturnURL": "http://45.77.25.172/api/ecpay/post_callback",
-                    "TradeDesc": "item description",
-                    "ItemName": "item1#item2"
+                    "TradeDesc": "遊覽車訂閱",
+                    "ItemName": f"{order.tourBus.title}"
                 },
                 "CardInfo": {
                     "OrderResultURL": "https://www.ecpay.com.tw/",
@@ -56,10 +58,10 @@ class GetTokenView(APIView):
                     "ExpireDate": 3
                 },
                 "ConsumerInfo": {
-                    "MerchantMemberID": "test123456",
+                    "MerchantMemberID": f"{order.user.id}",
                     "Email": "customer@email.com",
-                    "Phone": "0912345678",
-                    "Name": "Test",
+                    "Phone": f"{order.user.phone}",
+                    "Name": f"{order.user.name}",
                     "CountryCode": "158"
                 },
                 "CustomField": f"{order_id}",
