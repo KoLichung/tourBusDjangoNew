@@ -142,6 +142,7 @@ class PaymentResultCallback(APIView):
                 try:
                     order = Order.objects.get(id= int(data_json['CustomField']))
                     order.state = 'ownerWillContact'
+                    order.save()
                     payInfo.order = order
                     payInfo.save()
                 except:
@@ -149,6 +150,7 @@ class PaymentResultCallback(APIView):
             else:
                 order = Order.objects.get(id=1)
                 order.state = 'ownerWillContact'
+                order.save()
                 payInfo.order = Order.objects.get(id=1)
                 payInfo.save()
             
