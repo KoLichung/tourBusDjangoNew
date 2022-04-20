@@ -189,7 +189,7 @@ class OwnerBussesOrdersViewSet(APIView):
     def get(self, request, format=None):
         user = self.request.user
         buses = TourBus.objects.filter(user=user)
-        orders = Order.objects.filter(tourBus__in=buses)
+        orders = Order.objects.filter(tourBus__in=buses).order_by('-id')
         serializer = serializers.OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
