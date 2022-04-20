@@ -140,11 +140,15 @@ class PaymentResultCallback(APIView):
 
             if('CustomField' in data_json):
                 try:
-                    payInfo.order = Order.objects.get(id= int(data_json['CustomField']) )
+                    order = Order.objects.get(id= int(data_json['CustomField']))
+                    order.state = 'ownerWillContact'
+                    payInfo.order = order
                     payInfo.save()
                 except:
                     print("can't find order custom field error")
             else:
+                order = Order.objects.get(id=1)
+                order.state = 'ownerWillContact'
                 payInfo.order = Order.objects.get(id=1)
                 payInfo.save()
             
