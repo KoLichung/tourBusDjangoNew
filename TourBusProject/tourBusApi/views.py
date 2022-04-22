@@ -104,7 +104,8 @@ class SearchBusViewSet(viewsets.GenericViewSet,
                 new_queryset[i].coverImage = TourBusImage.objects.filter(tourBus=new_queryset[i]).first().image
             theBusses.append(new_queryset[i])
 
-        queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople).filter(city=City.objects.get(id=fromCityId))
+        # queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople).filter(city=City.objects.get(id=fromCityId))
+        queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople)
         for i in range(len(queryset)):
 
             if TourBusImage.objects.filter(tourBus=queryset[i]).count() != 0:
