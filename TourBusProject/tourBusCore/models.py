@@ -132,6 +132,11 @@ class Order(models.Model):
 
     memo = models.TextField(default='', null=True, blank=True)
 
+    isAtm = models.BooleanField(default=False, blank = True, null=True)
+    ATMInfoBankCode = models.CharField(max_length=20, default='', blank = True, null=True)
+    ATMInfovAccount = models.CharField(max_length=20, default='', blank = True, null=True)
+    ATMInfoExpireDate = models.DateTimeField(auto_now=False, blank = True,null=True)
+
 class PayInfo(models.Model):
     order = models.ForeignKey(
         Order,

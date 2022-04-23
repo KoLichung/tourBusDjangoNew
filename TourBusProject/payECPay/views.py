@@ -135,6 +135,10 @@ class PaymentResultCallback(APIView):
             
             if('ATMInfo' in data_json):
                 print("atm info")
+                # 3碼
+                payInfo.ATMInfoBankCode = data_json['ATMInfo']['ATMAccBank']
+                # 後 5 碼
+                payInfo.ATMInfovAccount = data_json['ATMInfo']['ATMAccNo']
             else:
                 print("no atm info")
 
