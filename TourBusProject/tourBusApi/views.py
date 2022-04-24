@@ -231,3 +231,10 @@ class GetOrderImageViewSet(APIView):
         order = Order.objects.get(id=order_id)
         busImage = TourBusImage.objects.filter(tourBus=order.tourBus).first()
         return Response({'image': busImage.image.url})
+
+class GetOrderUserInfo(APIView):
+
+    def get(self, request, format=None):
+        order_id = request.query_params.get('order_id')
+        user = Order.objects.get(id=order_id).user
+        return Response({'user': user.id, 'phone': user.phone, 'company':user.company, 'address':user.address, 'name':user.name})
