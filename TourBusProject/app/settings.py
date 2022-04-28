@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     '45.77.25.172',
     '127.0.0.1',
     'localhost',
+    'tourbustw.com',
 ]
 
 ADMINS = (
