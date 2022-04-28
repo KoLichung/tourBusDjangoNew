@@ -205,6 +205,42 @@ class OwnerUpdateOrderStateViewSet(APIView):
         if order.tourBus.user == user:
             order.state = state
             order.save()
+
+            #change rent days
+            if state == 'waitForDeposit':
+                rentDays = TourBusRentDay.objects.filter(tourBus=order.tourBus, state='available')
+                for day in rentDays:
+                    if order.startDate >=  day.startDate and order.endDate <= day.endDate:
+                        delta = order.startDate - day.startDate
+                        if delta.days >1:
+                            newAvailableRentDay = TourBusRentDay()
+                            newAvailableRentDay.tourBus = order.tourBus
+                            newAvailableRentDay.state = "available"
+                            newAvailableRentDay.startDate = day.startDate
+                            newAvailableRentDay.endDate = order.startDate
+                            newAvailableRentDay.save()
+                        newOrderedRentDay = TourBusRentDay()
+                        newOrderedRentDay.tourBus = order.tourBus
+                        newOrderedRentDay.state = "ordered"
+                        newOrderedRentDay.startDate = order.startDate
+                        newOrderedRentDay.endDate = order.endDate
+                        newOrderedRentDay.save()
+                        delta = day.endDate - order.endDate
+                        if delta.days >1:
+                            newAvailableRentDay = TourBusRentDay()
+                            newAvailableRentDay.tourBus = order.tourBus
+                            newAvailableRentDay.state = "available"
+                            newAvailableRentDay.startDate = order.endDate
+                            newAvailableRentDay.endDate = day.endDate
+                            newAvailableRentDay.save()
+                        day.delete()
+            elif state == "closed":
+                rentDays = TourBusRentDay.objects.filter(tourBus=order.tourBus, state='ordered')
+                for day in rentDays:
+                    if order.startDate == day.startDate and order.endDate == day.endDate:
+                        day.state = "pasted"
+                        day.save()
+
             return Response({'message': "ok"})
         else:
             return Response({'message': "have no authority"})
