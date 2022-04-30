@@ -22,8 +22,8 @@ class UserManager(BaseUserManager):
             address=extra_fields.get('address'),
             vehicalLicence=extra_fields.get('vehicalLicence'),
             vehicalOwner=extra_fields.get('vehicalOwner'),
-            vehicalEngineNumber=extra_fields.get('vehicalEngineNumber'),
-            vehicalBodyNumber=extra_fields.get('vehicalBodyNumber'),
+            # vehicalEngineNumber=extra_fields.get('vehicalEngineNumber'),
+            # vehicalBodyNumber=extra_fields.get('vehicalBodyNumber'),
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -58,9 +58,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     address = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalLicence = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalOwner = models.CharField(max_length=255, default='', blank = True, null=True)
-    vehicalEngineNumber = models.CharField(max_length=255, default='', blank = True, null=True)
-    vehicalBodyNumber = models.CharField(max_length=255, default='', blank = True, null=True)
+    # vehicalEngineNumber = models.CharField(max_length=255, default='', blank = True, null=True)
+    # vehicalBodyNumber = models.CharField(max_length=255, default='', blank = True, null=True)
 
+    driverLicenceImage = models.ImageField(upload_to=image_upload_handler, blank=True, null=True)
     vehicalLicenceImage = models.ImageField(upload_to=image_upload_handler, blank=True, null=True)
 
     line_id = models.CharField(max_length=255, default='', blank = True, null=True)
@@ -84,8 +85,9 @@ class TourBus(models.Model):
     vehicalSeats = models.IntegerField(default=0, null=True)
     vehicalLicence = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalOwner = models.CharField(max_length=255, default='', blank = True, null=True)
-    vehicalEngineNumber = models.CharField(max_length=255, default='', blank = True, null=True)
-    vehicalBodyNumber = models.CharField(max_length=255, default='', blank = True, null=True)
+    # vehicalEngineNumber = models.CharField(max_length=255, default='', blank = True, null=True)
+    # vehicalBodyNumber = models.CharField(max_length=255, default='', blank = True, null=True)
+    driverLicenceImage = models.ImageField(upload_to=image_upload_handler, blank=True, null=True)
     vehicalLicenceImage = models.ImageField(upload_to=image_upload_handler, blank=True, null=True)
     vehicalYearOfManufacture = models.CharField(max_length=20, default='', blank = True, null=True)
 

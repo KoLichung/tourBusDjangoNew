@@ -45,8 +45,8 @@ def fakeData():
     user.address = 'test address'
     user.vehicalLicence = 'test licence'
     user.vehicalOwner = 'test owner'
-    user.vehicalEngineNumber = 'test engine number'
-    user.vehicalBodyNumber = 'test body number'
+    # user.vehicalEngineNumber = 'test engine number'
+    # user.vehicalBodyNumber = 'test body number'
     user.save()
 
     user = User.objects.all()[0]
@@ -61,8 +61,8 @@ def fakeData():
     tourBus.vehicalSeats = 30
     tourBus.vehicalLicence = 'test licence'
     tourBus.vehicalOwner = 'test owner'
-    tourBus.vehicalEngineNumber = 'test engine number'
-    tourBus.vehicalBodyNumber = 'test body number'
+    # tourBus.vehicalEngineNumber = 'test engine number'
+    # tourBus.vehicalBodyNumber = 'test body number'
     tourBus.isPublish = True
     tourBus.save()
 
@@ -93,8 +93,8 @@ def fakeData():
     tourBus.vehicalSeats = 30
     tourBus.vehicalLicence = 'test licence 2'
     tourBus.vehicalOwner = 'test owner 2'
-    tourBus.vehicalEngineNumber = 'test engine number 2'
-    tourBus.vehicalBodyNumber = 'test body number 2'
+    # tourBus.vehicalEngineNumber = 'test engine number 2'
+    # tourBus.vehicalBodyNumber = 'test body number 2'
     tourBus.isPublish = True
     tourBus.save()
 
