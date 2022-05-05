@@ -53,7 +53,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    isOwner = models.BooleanField(default=False, null=True)
+    isOwner = models.BooleanField(default=False, blank = True, null=True)
+    isPassed = models.BooleanField(default=False, blank = True, null=True)
     company = models.CharField(max_length=255, default='', blank = True, null=True)
     address = models.CharField(max_length=255, default='', blank = True, null=True)
     vehicalLicence = models.CharField(max_length=255, default='', blank = True, null=True)
