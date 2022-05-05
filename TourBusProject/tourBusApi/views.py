@@ -102,7 +102,8 @@ class SearchBusViewSet(viewsets.GenericViewSet,
         for i in range(len(new_queryset)):
             if TourBusImage.objects.filter(tourBus=new_queryset[i]).count() != 0:
                 new_queryset[i].coverImage = TourBusImage.objects.filter(tourBus=new_queryset[i]).first().image
-            theBusses.append(new_queryset[i])
+            if new_queryset[i].user.isPassed == True:
+                theBusses.append(new_queryset[i])
 
         # queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople).filter(city=City.objects.get(id=fromCityId))
         queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople)
@@ -114,8 +115,9 @@ class SearchBusViewSet(viewsets.GenericViewSet,
             rentDays = TourBusRentDay.objects.filter(tourBus=queryset[i], state='available')
             for day in rentDays:
                 if startDate >= day.startDate and endDate <= day.endDate:
-                    theBusses.append(queryset[i])
-            
+                    if new_queryset[i].user.isPassed == True:
+                        theBusses.append(queryset[i])
+
         return theBusses
 
 class CityViewSet(viewsets.GenericViewSet,
