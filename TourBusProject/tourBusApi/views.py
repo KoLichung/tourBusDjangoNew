@@ -115,7 +115,7 @@ class SearchBusViewSet(viewsets.GenericViewSet,
             rentDays = TourBusRentDay.objects.filter(tourBus=queryset[i], state='available')
             for day in rentDays:
                 if startDate >= day.startDate and endDate <= day.endDate:
-                    if new_queryset[i].user.isPassed == True:
+                    if queryset[i].user.isPassed == True:
                         theBusses.append(queryset[i])
 
         return theBusses
