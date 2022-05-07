@@ -126,7 +126,7 @@ class PaymentResultCallback(APIView):
                     logger.info("no trade status")
             
 
-            if('CardInfo' in data_json):
+            if('CardInfo' in data_json and data_json['CardInfo']!= None):
                 payInfo.PaymentType = "信用卡"
                 payInfo.CardInfoAuthCode = data_json['CardInfo']['AuthCode']
                 payInfo.CardInfoGwsr = data_json['CardInfo']['Gwsr']
@@ -135,7 +135,7 @@ class PaymentResultCallback(APIView):
                 payInfo.CardInfoCard6No = data_json['CardInfo']['Card6No']
                 payInfo.CardInfoCard4No = data_json['CardInfo']['Card4No']
             
-            if('ATMInfo' in data_json):
+            if('ATMInfo' in data_json and data_json['ATMInfo']!= None):
                 print("atm info")
                 # 3碼
                 payInfo.ATMInfoBankCode = data_json['ATMInfo']['ATMAccBank']
@@ -144,7 +144,7 @@ class PaymentResultCallback(APIView):
             else:
                 print("no atm info")
 
-            if('CustomField' in data_json):
+            if('CustomField' in data_json and data_json['CustomField']!= None):
                 try:
                     order = Order.objects.get(id= int(data_json['CustomField']))
                     order.state = 'ownerWillContact'
