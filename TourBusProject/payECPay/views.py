@@ -106,6 +106,8 @@ class PaymentResultCallback(APIView):
         data_json = json.loads(the_data)
         
         print(data_json)
+        logger.info(body)
+        logger.info(data_json)
 
         if(PayInfo.objects.filter(OrderInfoMerchantTradeNo=data_json['OrderInfo']['MerchantTradeNo']).count()==0 ):
             payInfo = PayInfo()
@@ -160,9 +162,6 @@ class PaymentResultCallback(APIView):
             
             
         # print(the_data)
-
-        logger.info(body)
-        logger.info(data_json)
 
         # content = body['content']
         # print(content)
