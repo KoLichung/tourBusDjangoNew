@@ -98,7 +98,7 @@ class SearchBusViewSet(viewsets.GenericViewSet,
         numberOfPeople = int(self.request.query_params.get('numberOfPeople'))
         
         theBusses = []
-        new_queryset = self.queryset.filter(isTop=True)
+        new_queryset = self.queryset.filter(isTop=True).filter(isPublish=True)
         for i in range(len(new_queryset)):
             if TourBusImage.objects.filter(tourBus=new_queryset[i]).count() != 0:
                 new_queryset[i].coverImage = TourBusImage.objects.filter(tourBus=new_queryset[i]).first().image
@@ -106,7 +106,7 @@ class SearchBusViewSet(viewsets.GenericViewSet,
                 theBusses.append(new_queryset[i])
 
         # queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople).filter(city=City.objects.get(id=fromCityId))
-        queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople)
+        queryset = self.queryset.filter(isTop=False).filter(isPublish=True).filter(vehicalSeats__gte=numberOfPeople)
         for i in range(len(queryset)):
 
             if TourBusImage.objects.filter(tourBus=queryset[i]).count() != 0:
@@ -157,8 +157,8 @@ class AnnouncementViewSet(viewsets.GenericViewSet,
 
     def perform_create(self, serializer):
         # user = serializer.validated_data['user']
-        from tourBusApi.tasks.fcmTasks import sendFcmInquiry
-        sendFcmInquiry()
+        # from tourBusApi.tasks.fcmTasks import sendFcmInquiry
+        # sendFcmInquiry()
 
         user = self.request.user
         serializer.save(user=user, phone=user.phone, name=user.name)     
