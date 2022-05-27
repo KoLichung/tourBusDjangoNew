@@ -17,6 +17,7 @@ class UserManager(BaseUserManager):
             phone = phone, 
             name=extra_fields.get('name'),
             line_id=extra_fields.get('line_id'),
+            apple_id=extra_fields.get('apple_id'),
             isOwner=extra_fields.get('isOwner'),
             company=extra_fields.get('company'),
             address=extra_fields.get('address'),
@@ -66,6 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     vehicalLicenceImage = models.ImageField(upload_to=image_upload_handler, blank=True, null=True)
 
     line_id = models.CharField(max_length=255, default='', blank = True, null=True)
+    apple_id = models.CharField(max_length=255, default='', blank = True, null=True)
 
     objects = UserManager()
 
