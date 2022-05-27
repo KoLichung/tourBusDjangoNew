@@ -11,6 +11,7 @@ from django.db.models import Q
 from datetime import datetime
 from django.utils.timezone import make_aware
 from fcm_django.models import FCMDevice
+import math, random
 
 class BusViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
@@ -144,6 +145,40 @@ class SmsVerifyViewSet(APIView):
         else:
             return Response({'message': "wrong phone number type"})
 
+class ResetPasswordSmsVerifyViewSet(APIView):
+
+    def get(self, request, format=None):
+        from tourBusApi.tasks.smsTasks import randSmsVerifyCode
+        phone= self.request.query_params.get('phone')
+        if phone!= None and len(phone) == 10:
+            if User.objects.filter(phone=phone).count() !=0:
+                code = randSmsVerifyCode(phone)
+                return Response({'message': "ok", 'code': code})
+            else:
+                return Response({'message': "this phone haven't registered"})
+        else:
+            return Response({'message': "wrong phone number type"})
+
+class ResetPasswordSmsSendPasswordViewSet(APIView):
+
+    def get(self, request, format=None):
+        from tourBusApi.tasks.smsTasks import smsSendPassword
+        phone= self.request.query_params.get('phone')
+        if phone!= None and len(phone) == 10:
+            if User.objects.filter(phone=phone).count() !=0:
+                user = User.objects.get(phone=phone)
+
+                password = generatePassword()
+                smsSendPassword(phone, password)
+
+                user.set_password(password)
+                user.save()
+                return Response({'message': "ok"})
+            else:
+                return Response({'message': "this phone already registered"})
+        else:
+            return Response({'message': "wrong phone number type"})
+
 class AnnouncementViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
                     mixins.CreateModelMixin):
@@ -210,32 +245,39 @@ class OwnerUpdateOrderStateViewSet(APIView):
 
             #change rent days
             if state == 'waitForDeposit':
-                rentDays = TourBusRentDay.objects.filter(tourBus=order.tourBus, state='available')
-                for day in rentDays:
-                    if order.startDate >=  day.startDate and order.endDate <= day.endDate:
-                        delta = order.startDate - day.startDate
-                        if delta.days >1:
-                            newAvailableRentDay = TourBusRentDay()
-                            newAvailableRentDay.tourBus = order.tourBus
-                            newAvailableRentDay.state = "available"
-                            newAvailableRentDay.startDate = day.startDate
-                            newAvailableRentDay.endDate = order.startDate
-                            newAvailableRentDay.save()
-                        newOrderedRentDay = TourBusRentDay()
-                        newOrderedRentDay.tourBus = order.tourBus
-                        newOrderedRentDay.state = "ordered"
-                        newOrderedRentDay.startDate = order.startDate
-                        newOrderedRentDay.endDate = order.endDate
-                        newOrderedRentDay.save()
-                        delta = day.endDate - order.endDate
-                        if delta.days >1:
-                            newAvailableRentDay = TourBusRentDay()
-                            newAvailableRentDay.tourBus = order.tourBus
-                            newAvailableRentDay.state = "available"
-                            newAvailableRentDay.startDate = order.endDate
-                            newAvailableRentDay.endDate = day.endDate
-                            newAvailableRentDay.save()
-                        day.delete()
+                newOrderedRentDay = TourBusRentDay()
+                newOrderedRentDay.tourBus = order.tourBus
+                newOrderedRentDay.state = "ordered"
+                newOrderedRentDay.startDate = order.startDate
+                newOrderedRentDay.endDate = order.endDate
+                newOrderedRentDay.save()
+
+                # rentDays = TourBusRentDay.objects.filter(tourBus=order.tourBus, state='available')
+                # for day in rentDays:
+                #     if order.startDate >=  day.startDate and order.endDate <= day.endDate:
+                #         delta = order.startDate - day.startDate
+                #         if delta.days >1:
+                #             newAvailableRentDay = TourBusRentDay()
+                #             newAvailableRentDay.tourBus = order.tourBus
+                #             newAvailableRentDay.state = "available"
+                #             newAvailableRentDay.startDate = day.startDate
+                #             newAvailableRentDay.endDate = order.startDate
+                #             newAvailableRentDay.save()
+                #         newOrderedRentDay = TourBusRentDay()
+                #         newOrderedRentDay.tourBus = order.tourBus
+                #         newOrderedRentDay.state = "ordered"
+                #         newOrderedRentDay.startDate = order.startDate
+                #         newOrderedRentDay.endDate = order.endDate
+                #         newOrderedRentDay.save()
+                #         delta = day.endDate - order.endDate
+                #         if delta.days >1:
+                #             newAvailableRentDay = TourBusRentDay()
+                #             newAvailableRentDay.tourBus = order.tourBus
+                #             newAvailableRentDay.state = "available"
+                #             newAvailableRentDay.startDate = order.endDate
+                #             newAvailableRentDay.endDate = day.endDate
+                #             newAvailableRentDay.save()
+                #         day.delete()
             elif state == "closed":
                 rentDays = TourBusRentDay.objects.filter(tourBus=order.tourBus, state='ordered')
                 for day in rentDays:
@@ -276,3 +318,17 @@ class GetOrderUserInfo(APIView):
         order_id = request.query_params.get('order_id')
         user = Order.objects.get(id=order_id).user
         return Response({'user': user.id, 'phone': user.phone, 'company':user.company, 'address':user.address, 'name':user.name})
+
+def generatePassword() :
+    # Declare a digits variable 
+    # which stores all digits
+    digits = "0123456789abcdefghij"
+    OTP = ""
+ 
+    # length of password can be changed
+    # by changing value in range
+    for i in range(6) :
+        OTP += digits[math.floor(random.random() * 20)]
+    
+    # ex.3211
+    return OTP

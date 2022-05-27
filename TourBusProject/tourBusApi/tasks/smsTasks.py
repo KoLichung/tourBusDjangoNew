@@ -42,6 +42,19 @@ def randSmsVerifyCode(phone):
     expireSmsCode.apply_async(kwargs={'id': smsVerifyCode.id}, countdown=60)
     return smsVerifyCode.code
 
+def smsSendPassword(phone, password):
+    url = 'https://smsb2c.mitake.com.tw/b2c/mtk/SmSend?CharsetURL=UTF8'
+
+    theString = f"您的臨時密碼為 {password}, 請盡快登入並修改~"
+    params ={
+        "username": "0938651226",
+        "password": "123456",
+        "dstaddr": phone,
+        "smbody": theString
+    }
+    resp = requests.post(url, params= params)
+    print(resp.text)
+
 def generateOTP() :
     # Declare a digits variable 
     # which stores all digits

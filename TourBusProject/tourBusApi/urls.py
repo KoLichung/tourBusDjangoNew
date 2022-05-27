@@ -24,5 +24,6 @@ urlpatterns = [
     path('owner_update_memo', views.OwnerUpdateOrderMemoViewSet.as_view()),
     path('get_order_image', views.GetOrderImageViewSet.as_view()),
     path('get_order_user_info', views.GetOrderUserInfo.as_view()),
-
+    path('reset_password_sms_verify', views.ResetPasswordSmsVerifyViewSet.as_view()),
+    path('reset_password_sms_password', views.ResetPasswordSmsSendPasswordViewSet.as_view()),
 ]

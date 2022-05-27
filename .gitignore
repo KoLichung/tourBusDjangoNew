@@ -2,3 +2,5 @@
 /TourBusProject/db.sqlite3
 /media/images/*
 /TourBusProject/*.log
+
+__pycache__
