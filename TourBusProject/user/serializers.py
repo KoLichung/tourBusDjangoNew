@@ -10,11 +10,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id','phone', 'password', 'name', 'line_id', 'isOwner', 'company', 'address', 'vehicalLicence', 'vehicalOwner', 'vehicalLicenceImage', 'driverLicenceImage','is_gotten_line_id')
+        fields = ('id','phone', 'password', 'name', 'line_id', 'apple_id','isOwner', 'company', 'address', 'vehicalLicence', 'vehicalOwner', 'vehicalLicenceImage', 'driverLicenceImage','is_gotten_line_id')
         extra_kwargs = {
             'password': {'write_only': True, 'min_length': 5},
             'line_id': {'write_only': True},
-            }
+            'apple_id': {'write_only': True},
+        }
 
     def create(self, validated_data):
         """Create a new user with encrypted password and return it"""
