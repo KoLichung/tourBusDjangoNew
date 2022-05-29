@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from tourBusCore.models import User, TourBus, TourBusImage, TourBusRentDay, Order, AnnounceMent,City, County, SmsVerifyCode
 from tourBusApi import serializers
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from fcm_django.models import FCMDevice
 import math, random
@@ -69,7 +69,7 @@ class OrderViewSet(viewsets.GenericViewSet,
         return self.queryset.filter(user=self.request.user).order_by('-id')
     
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user, state='waitOwnerCheck')
+        serializer.save(user=self.request.user, state='waitOwnerCheck', isAtm=True, ATMInfoBankCode="822", ATMInfovAccount="749530212713",ATMInfoExpireDate=datetime.now()+timedelta(days=3))
 
 class RentDayViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
