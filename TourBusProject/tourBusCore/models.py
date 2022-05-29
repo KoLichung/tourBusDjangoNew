@@ -148,6 +148,7 @@ class Order(models.Model):
     ATMInfoBankCode = models.CharField(max_length=20, default='', blank = True, null=True)
     ATMInfovAccount = models.CharField(max_length=20, default='', blank = True, null=True)
     ATMInfoExpireDate = models.DateTimeField(auto_now=False, blank = True,null=True)
+    ATMFiveDigit = models.CharField(max_length=20, default='', blank = True, null=True)
 
 class PayInfo(models.Model):
     order = models.ForeignKey(
