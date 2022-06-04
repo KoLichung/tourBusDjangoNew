@@ -4,3 +4,4 @@
 /TourBusProject/*.log
 
 __pycache__
+.idea/**

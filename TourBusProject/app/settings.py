@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'tourBusCore',
     'user',
     'payECPay',
-    "fcm_django",
+    'fcm_django',
+    'backboard',
 ]
 
 FIREBASE_APP = initialize_app()

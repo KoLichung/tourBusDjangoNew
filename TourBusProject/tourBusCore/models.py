@@ -150,6 +150,8 @@ class Order(models.Model):
     ATMInfoExpireDate = models.DateTimeField(auto_now=False, blank = True,null=True)
     ATMFiveDigit = models.CharField(max_length=20, default='', blank = True, null=True)
 
+    create_date = models.DateTimeField(auto_now=True,null=True)
+
 class PayInfo(models.Model):
     order = models.ForeignKey(
         Order,

@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/',include('tourBusApi.urls') ),
     path('api/user/', include('user.urls')),
     path('api/ecpay/', include('payECPay.urls')),
+    path('backboard/', include('backboard.urls')),
     # path('', include(router.urls)),
 ]
 if settings.DEBUG:
