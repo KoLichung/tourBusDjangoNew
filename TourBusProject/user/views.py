@@ -75,7 +75,7 @@ class DeleteUserView(APIView):
         # serializer = UpdateUserSerializer(user)
         # return Response(serializer.data)
         if user == User.objects.get(id=pk):
-            tourBuses = TourBus.objects.filter(user=user).update(isPublish=False).update(isTop=False)
+            tourBuses = TourBus.objects.filter(user=user).update(isPublish=False, isTop=False)
             for bus in tourBuses:
                 TourBusRentDay.objects.filter(tourBus=bus, state='available').delete()
             Order.objects.filter(user=user).filter(~Q(state='closed')).update(state='ownerCanceled')
