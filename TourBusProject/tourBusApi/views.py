@@ -229,8 +229,9 @@ class OwnerBussesOrdersViewSet(APIView):
     authentication_classes = (TokenAuthentication,)
 
     def get(self, request, format=None):
+        print('here')
         user = self.request.user
-        buses = TourBus.objects.filter(user=user)
+        buses = TourBus.objects.exclude(user__isnull=True).filter(user=user)
         orders = Order.objects.filter(tourBus__in=buses).order_by('-id')
         serializer = serializers.OrderSerializer(orders, many=True)
         return Response(serializer.data)

@@ -46,8 +46,9 @@ class OrderSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         rep['busTitle'] =  instance.tourBus.title
-        rep['name'] = instance.user.name
-        rep['phone'] = instance.user.phone
+        if instance.user != None:
+            rep['name'] = instance.user.name
+            rep['phone'] = instance.user.phone
         return rep
 
     # def to_representation(self, instance):
