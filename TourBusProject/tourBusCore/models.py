@@ -76,7 +76,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 class TourBus(models.Model):
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
     title = models.CharField(max_length=255, default='', blank = True, null=True)
     lat = models.DecimalField(max_digits=9, decimal_places=6, null=True)
@@ -121,7 +123,9 @@ class TourBusRentDay(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(
         User,
-        on_delete=models.RESTRICT
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     tourBus = models.ForeignKey(
@@ -184,7 +188,9 @@ class PayInfo(models.Model):
 class AnnounceMent(models.Model):
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
     phone = models.CharField(max_length=10, blank = True, null=True)
     name = models.CharField(max_length=255, blank = True, null=True)

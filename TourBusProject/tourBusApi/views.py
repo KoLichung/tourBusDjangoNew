@@ -89,7 +89,7 @@ class RentDayViewSet(viewsets.GenericViewSet,
 class SearchBusViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,):
     queryset = TourBus.objects.all()
-    serializer_class = serializers.TourBusSerializer
+    serializer_class = serializers.SearchTourBusSerializer
 
     def get_queryset(self):
         fromCityId = self.request.query_params.get('departure_city_id')
@@ -103,12 +103,16 @@ class SearchBusViewSet(viewsets.GenericViewSet,
         for i in range(len(new_queryset)):
             if TourBusImage.objects.filter(tourBus=new_queryset[i]).count() != 0:
                 new_queryset[i].coverImage = TourBusImage.objects.filter(tourBus=new_queryset[i]).first().image
-            if new_queryset[i].user.isPassed == True:
+            if new_queryset[i].user != None and new_queryset[i].user.isPassed == True:
+                new_queryset[i].company = new_queryset[i].user.company
                 theBusses.append(new_queryset[i])
 
         # queryset = self.queryset.filter(isTop=False).filter(vehicalSeats__gte=numberOfPeople).filter(city=City.objects.get(id=fromCityId))
         queryset = self.queryset.filter(isTop=False).filter(isPublish=True).filter(vehicalSeats__gte=numberOfPeople)
         for i in range(len(queryset)):
+
+            if(queryset[i].user != None):
+                queryset[i].company = queryset[i].user.company
 
             if TourBusImage.objects.filter(tourBus=queryset[i]).count() != 0:
                 queryset[i].coverImage = TourBusImage.objects.filter(tourBus=queryset[i]).first().image

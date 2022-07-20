@@ -13,6 +13,19 @@ class TourBusSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalLicenceImage', 'driverLicenceImage', 'vehicalYearOfManufacture','isPublish','isTop','coverImage', 'recent_start_date', 'recent_end_date')
         read_only_fields = ('id','user','isTop')
 
+class SearchTourBusSerializer(serializers.ModelSerializer):
+    # coverImage = serializers.ImageField(max_length=None, allow_empty_file=True)
+    # CategoryNum = serializers.IntegerField(default='0')
+    coverImage = serializers.CharField(read_only=True)
+    recent_start_date = serializers.DateTimeField(read_only=True)
+    recent_end_date = serializers.DateTimeField(read_only=True)
+    company = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = TourBus
+        fields = ('id', 'user', 'title', 'lat', 'lng', 'city', 'county', 'vehicalSeats','vehicalLicence','vehicalOwner','vehicalLicenceImage', 'driverLicenceImage', 'vehicalYearOfManufacture','isPublish','isTop','coverImage', 'recent_start_date', 'recent_end_date', 'company')
+        read_only_fields = ('id','user','isTop')
+
 class TourBusImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = TourBusImage

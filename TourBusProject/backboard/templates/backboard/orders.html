@@ -73,8 +73,14 @@
                                   已完成
                                 {% endif %}
                               </button>
-                            </td>                                                     
-                            <td class="text-nowrap">下訂日：{{order.create_date|date:"Y-m-d"}} 消費者：{{order.user.name}} {{order.user.phone}} 業者：{{order.tourBus.user.name}} 出遊日期：{{order.startDate|date:"Y-m-d"}}~{{order.endDate|date:"Y-m-d"}}</td>
+                            </td>
+                            {% if order.user and order.tourBus.user %}                                                     
+                              <td class="text-nowrap">下訂日：{{order.create_date|date:"Y-m-d"}} 消費者：{{order.user.name}} {{order.user.phone}} 業者：{{order.tourBus.user.name}} 出遊日期：{{order.startDate|date:"Y-m-d"}}~{{order.endDate|date:"Y-m-d"}}</td>
+                            {% elif order.user %}
+                              <td class="text-nowrap">下訂日：{{order.create_date|date:"Y-m-d"}} 消費者：{{order.user.name}} {{order.user.phone}} 業者：用戶已刪除 出遊日期：{{order.startDate|date:"Y-m-d"}}~{{order.endDate|date:"Y-m-d"}}</td>
+                            {% else %}
+                              <td class="text-nowrap">下訂日：{{order.create_date|date:"Y-m-d"}} 消費者：用戶已刪除 業者：用戶已刪除 出遊日期：{{order.startDate|date:"Y-m-d"}}~{{order.endDate|date:"Y-m-d"}}</td>
+                            {% endif %}
                             <td><input class="btn btn-warning btn-link text-white btn-sm" type="button" value="查看" onclick="location.href='{% url 'order_detail' %}?order_id={{order.id}}'"></td>
                         </tr>                                              
                       {% endfor %}

@@ -4,10 +4,11 @@ from rest_framework.settings import api_settings
 from rest_framework.views import APIView
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
-
-from django.contrib.auth.password_validation import validate_password
+from rest_framework import status
 
 from user.serializers import UserSerializer, AuthTokenSerializer, UpdateUserSerializer
+from tourBusCore.models import User, TourBus, TourBusRentDay, Order
+from django.db.models import Q
 
 class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system"""
@@ -65,3 +66,26 @@ class UpdateUserPassword(APIView):
             return Response({'message': 'success update!'})
         else:
             raise APIException("wrong old password")
+
+class DeleteUserView(APIView):
+    authentication_classes = (authentication.TokenAuthentication,)
+
+    def get(self, request, pk, format=None):
+        user  = self.request.user
+        # serializer = UpdateUserSerializer(user)
+        # return Response(serializer.data)
+        if user == User.objects.get(id=pk):
+            tourBuses = TourBus.objects.filter(user=user).update(isPublish=False).update(isTop=False)
+            for bus in tourBuses:
+                TourBusRentDay.objects.filter(tourBus=bus, state='available').delete()
+            Order.objects.filter(user=user).filter(~Q(state='closed')).update(state='ownerCanceled')
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+    # def delete(self, request, pk, format=None):
+    #     user = self.request.user
+    #     if user == User.objects.get(id=pk):
+    #         user.delete()
+    #         return Response(status=status.HTTP_204_NO_CONTENT)

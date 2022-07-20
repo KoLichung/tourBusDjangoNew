@@ -25,7 +25,11 @@
                         {% endif %}
                       </button>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      消費者：{{order.user.name}} {{order.user.phone}}
+                      {% if order.user %}
+                        消費者：{{order.user.name}} {{order.user.phone}}
+                      {% else %}
+                        消費者：用戶已刪除
+                      {% endif %}
                     </p>
                 </div>
               </div>
@@ -44,7 +48,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     訂金：＄{{order.depositMoney}}
                     &nbsp;&nbsp;&nbsp;
-                    {% if order.ATMFiveDigit != "" %}
+                    {% if order.ATMFiveDigit != "" and order.ATMFiveDigit != None %}
                       付款後五碼：{{order.ATMFiveDigit}}
                     {% else %}
                       付款後五碼：尚未回填
@@ -84,7 +88,11 @@
                   <hr>
                   <p>下訂日期：{{order.create_date|date:"Y-m-d"}}</p>
                   <p>出遊日期：{{order.startDate|date:"Y-m-d"}}~{{order.endDate|date:"Y-m-d"}}</p>
-                  <p>業者：{{order.tourBus.user.name}}</p>
+                  {% if order.tourBus.user %}
+                    <p>業者：{{order.tourBus.user.name}}</p>
+                  {% else %}
+                    <p>業者：用戶已刪除</p>
+                  {% endif %}
                   <p>業者備註：{{order.memo}}</p>
                 </div>
               </div>
