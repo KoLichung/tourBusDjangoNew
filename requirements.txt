@@ -7,3 +7,4 @@ cryptography>=36.0.2
 firebase_admin>=5.2.0
 fcm_django>=1.0.8
 celery>=5.2.3
+mysqlclient>=2.1.1
